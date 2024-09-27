@@ -26,7 +26,7 @@ const sendOTP = async(req,res)=> {
             {upsert: true,new: true ,setDefaultsOnInsert: true}
         )
 
-        console.log(response);
+        // console.log(response);
 
         
         
@@ -58,12 +58,12 @@ const verifyOTP = async(req,res)=>{
     try {
         const {phoneNumber,otp} = req.body
 
-        console.log({phoneNumber,otp});
+        // console.log({phoneNumber,otp});
         
 
         const dbDoc = await Otp.findOne({phoneNumber, otp}) 
 
-        console.log(dbDoc);
+        // console.log(dbDoc);
         
 
         if (!dbDoc) {
