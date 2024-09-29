@@ -6,6 +6,7 @@ import cors from 'cors'
 import userRoutes from './routes/userRoutes.js'
 import jobRoutes from './routes/jobRoutes.js'
 import otpRoutes from './routes/otpRoutes.js'
+import alumniRoutes from './routes/alumniRoutes.js'
 
 // taking app instance
 const app = express()
@@ -39,6 +40,7 @@ app.get('/ping',(req,res)=>{
 // api's
 app.use('/api/v1/user',userRoutes)
 app.use('/api/v1/jobs',jobRoutes)
+app.use('/api/v1/alumni',alumniRoutes)
 
 // test for otp
 app.use('/api/v1/otp',otpRoutes)
