@@ -12,6 +12,7 @@ import RequireAuth from './Components/Auth/RequireAuth'
 import JobList from './Pages/Jobs/JobList'
 import JobDescription from './Pages/Jobs/JobDescription'
 import AddNewJob from './Pages/Jobs/AddNewJob'
+import DonationForm from './Pages/DonationForm'
 
 
 function App() {
@@ -33,6 +34,12 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["ADMIN","ALUMNI"]}/>} >
             
             <Route path='/job/add-new-job' element={ <AddNewJob/>} />
+        </Route>
+        
+
+        <Route element={<RequireAuth allowedRoles={["ALUMNI"]}/>} >
+            
+            <Route path='/alumni/donate' element={ <DonationForm/>} />
         </Route>
         
         <Route path='*' element={<NotFound/>} />

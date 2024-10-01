@@ -49,14 +49,25 @@ function Header() {
           Events
         </NavLink>
         {(role === 'ADMIN' || role === 'ALUMNI') && (
-          <NavLink
-            to="/job/add-new-job"
-            className={({ isActive }) =>
-              isActive ? "text-yellow-400" : "hover:text-black"
-            }
-          >
-            Add New Job
-          </NavLink>
+              <NavLink
+                to="/job/add-new-job"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "hover:text-black"
+                }
+              >
+                Add New Job
+              </NavLink>
+        )}
+
+        { role === 'ALUMNI' && (
+              <NavLink
+                to="/alumni/donate"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "hover:text-black"
+                }
+              >
+                Donate
+              </NavLink>
         )}
       </nav>
 

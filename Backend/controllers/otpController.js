@@ -1,4 +1,5 @@
 import Otp from "../models/otpModel.js";
+import alumni from "../models/alumniModel.js";
 import otpGenerator from 'otp-generator'
 import twilio from 'twilio'
 import { configDotenv } from 'dotenv';
@@ -9,6 +10,15 @@ const client = new twilio(process.env.TWILIO_ACCOUNT_SID,process.env.TWILIO_AUTH
 const sendOTP = async(req,res)=> {
     try {
         const {phoneNumber} = req.body
+
+        const existingAlumni = await alumni.findOne({phoneNumber})
+
+        // console.log(existingAlumni);
+        
+
+        if(!existingAlumni){
+            return res.status(500).json('Alumni does not exist !') 
+        }
 
         const OTP = otpGenerator.generate(6,{
             lowerCaseAlphabets: false,

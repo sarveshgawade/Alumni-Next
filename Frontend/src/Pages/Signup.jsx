@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsPersonCircle } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../Redux/Slices/authSlice';
@@ -32,13 +32,25 @@ function Signup() {
   const [isPhoneNumberVerified, setIsPhoneNumberVerified] = useState(false);
   const [timer,setTimer] = useState(30)
 
-  // function runTimer(){
-  //   setInterval(()=>{
-  //     setTimer(prev => prev-1)
-  //     console.log(timer);
-      
-  //   },1000)
-  // }
+  // const [timer, setTimer] = useState(30);
+
+  // Timer function that runs when OTP is sent
+  useEffect(() => {
+    if (otpSent && timer > 0) {
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      // Clear the interval when the timer reaches zero
+      if (timer === 0) {
+        clearInterval(interval);
+      }
+
+      // Cleanup interval on unmount
+      return () => clearInterval(interval);
+    }
+  }, [otpSent, timer]);
+
 
   function getImage(e) {
     e.preventDefault();
@@ -89,8 +101,8 @@ function Signup() {
         toast.error('Failed to send OTP!');
       }
     } catch (error) {
-      console.error(error);
-      toast.error('Error in sending OTP!');
+      console.error();
+      toast.error(error.response.data);
     }
   }
 
@@ -310,6 +322,11 @@ function Signup() {
           {/* OTP Input Field (Only shown after OTP is sent) */}
           {otpSent && !isPhoneNumberVerified && (
             <>
+
+            {/* display timer */}
+              {/* <div>{timer}</div> */}
+
+
               <div className='mb-4'>
                 <input
                   type='text'
