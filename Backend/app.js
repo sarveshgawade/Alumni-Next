@@ -7,6 +7,8 @@ import userRoutes from './routes/userRoutes.js'
 import jobRoutes from './routes/jobRoutes.js'
 import otpRoutes from './routes/otpRoutes.js'
 import alumniRoutes from './routes/alumniRoutes.js'
+import imageUploadRoutes from './routes/imageUploadRoute.js'
+import eventRoutes from './routes/eventRoutes.js'
 
 // taking app instance
 const app = express()
@@ -41,6 +43,8 @@ app.get('/ping',(req,res)=>{
 app.use('/api/v1/user',userRoutes)
 app.use('/api/v1/jobs',jobRoutes)
 app.use('/api/v1/alumni',alumniRoutes)
+app.use('/api/v1/uploadImages',imageUploadRoutes)
+app.use('/api/v1/event',eventRoutes)
 
 // test for otp
 app.use('/api/v1/otp',otpRoutes)

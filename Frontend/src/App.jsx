@@ -13,6 +13,7 @@ import JobList from './Pages/Jobs/JobList'
 import JobDescription from './Pages/Jobs/JobDescription'
 import AddNewJob from './Pages/Jobs/AddNewJob'
 import DonationForm from './Pages/DonationForm'
+import ImageUploader from './Components/ImageUploader'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path='/user/edit-profile' element={<EditProfile/>} />
         <Route path='/jobs' element={ <JobList/>} />
         <Route path='/jobs/description' element={ <JobDescription/>} />
+        <Route path='/upload-image' element={ <ImageUploader/>} />
 
 
         <Route element={<RequireAuth allowedRoles={["ADMIN","ALUMNI"]}/>} >
