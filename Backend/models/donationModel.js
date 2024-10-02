@@ -9,12 +9,11 @@ const donationSchema = new mongoose.Schema({
     email:{
         type:'String',
         trim: true ,
-        unique: true ,
         match: [
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             'Please fill in a valid email address'
           ] ,
-          required: [true, 'Email is required !']
+        required: [true, 'Email is required !']
 
     },
     employer:{

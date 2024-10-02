@@ -46,6 +46,20 @@ export default function DonationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!formData.fullName || 
+       !formData.email || 
+       !formData.phoneNumber ||
+       !formData.employer ||
+       !formData.passoutYear ||
+       !formData.department ||
+       !formData.purpose ||
+       !formData.screenShot ||
+       !formData.donationAmount
+    ){
+      toast.error('All fields are required !')
+      return
+    }
     
     const form = new FormData()
 
@@ -77,7 +91,7 @@ export default function DonationForm() {
         previewImage: ''
       })
       
-      navigate(-1)
+      navigate('/')
     }else{
       toast.error('Error in submitting donation data !')
     }
@@ -90,7 +104,7 @@ export default function DonationForm() {
      <div className="flex justify-center items-center min-h-screen bg-gray-100 pt-24 pb-14">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Donation Form</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
             <label className="block text-sm font-medium text-gray-700">Your Name:</label>
             <input
@@ -118,7 +132,7 @@ export default function DonationForm() {
           <div>
             <label className="block text-sm font-medium text-gray-700">Your 10-digit Mobile Number:</label>
             <input
-              type="text"
+              type="number"
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleChange}
@@ -141,7 +155,7 @@ export default function DonationForm() {
           <div>
             <label className="block text-sm font-medium text-gray-700">Your Passout Year from College:</label>
             <input
-              type="text"
+              type="number"
               name="passoutYear"
               value={formData.passoutYear}
               onChange={handleChange}
