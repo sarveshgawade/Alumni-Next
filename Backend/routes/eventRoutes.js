@@ -8,6 +8,8 @@ const router = Router()
 // routes
 router.post(
     '/add',
+    isLoggedIn,
+    authorizedRoles('ADMIN'),
     upload.fields([
       { name: 'thumbnail', maxCount: 1 }, // single thumbnail image
       { name: 'images', maxCount: 10 },   // array of images (up to 10)
@@ -16,7 +18,7 @@ router.post(
   );
 
 router.get('/',getAllEvents)
-router.delete('/:id',deleteEvent)
+router.delete('/:id',isLoggedIn,authorizedRoles('ADMIN'),deleteEvent)
 
 
 export default router
