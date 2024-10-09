@@ -22,11 +22,11 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: [true,`Club name is required`]
     },
-    date: [{
+    date: {
         // type: Date, 
         type: String, 
         required: [true, 'Date are required']
-    }],
+    },
     tagline:{
         type : String,
         required: [true, 'Tagline are required']

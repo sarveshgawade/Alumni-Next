@@ -41,7 +41,7 @@ function Header() {
           Jobs & Internships
         </NavLink>
         <NavLink
-          to="/na"
+          to="/events"
           className={({ isActive }) =>
             isActive ? "text-yellow-400" : "hover:text-black"
           }
@@ -67,6 +67,17 @@ function Header() {
                 }
               >
                 Donate
+              </NavLink>
+        )}
+
+        { role === 'ADMIN' && (
+              <NavLink
+                to="/event/add"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "hover:text-black"
+                }
+              >
+                Add Event
               </NavLink>
         )}
       </nav>

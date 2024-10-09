@@ -14,6 +14,9 @@ import JobDescription from './Pages/Jobs/JobDescription'
 import AddNewJob from './Pages/Jobs/AddNewJob'
 import DonationForm from './Pages/DonationForm'
 import ImageUploader from './Components/ImageUploader'
+import AddNewEvent from './Pages/Events/AddNewEvent'
+import EventList from './Pages/Events/EventList'
+import EventDescription from './Pages/Events/EventDescription'
 
 
 function App() {
@@ -31,6 +34,8 @@ function App() {
         <Route path='/jobs' element={ <JobList/>} />
         <Route path='/jobs/description' element={ <JobDescription/>} />
         <Route path='/upload-image' element={ <ImageUploader/>} />
+        <Route path='/events' element={ <EventList/>} />
+        <Route path='/events/description' element={ <EventDescription/>} />
 
 
         <Route element={<RequireAuth allowedRoles={["ADMIN","ALUMNI"]}/>} >
@@ -42,6 +47,11 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["ALUMNI"]}/>} >
             
             <Route path='/alumni/donate' element={ <DonationForm/>} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>} >
+            
+            <Route path='/event/add' element={ <AddNewEvent/>} />
         </Route>
         
         <Route path='*' element={<NotFound/>} />
