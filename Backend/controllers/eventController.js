@@ -86,4 +86,30 @@ const getAllEvents = async (req,res) => {
     }
 }
 
-export {addNewEvent,getAllEvents}
+const deleteEvent = async (req,res) => {
+    try {
+        const {id} = req.params
+
+        if(!id){
+            req.status(500).json('ID is required !')
+        }
+
+        const deletedEvent = await Event.findByIdAndDelete(id)
+
+        if(!deletedEvent){
+            res.status(500).json('Error in deleting event !')
+        }
+
+        res.status(200).json({
+            success: true ,
+            message : 'Event deleted successfully !',
+            deletedEvent
+        })
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+export {addNewEvent,getAllEvents,deleteEvent}

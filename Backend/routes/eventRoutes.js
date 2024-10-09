@@ -1,7 +1,7 @@
 import {Router} from 'express'
 import {  authorizedRoles, isLoggedIn } from '../middlewares/authMiddleware.js'
 import upload from '../middlewares/multerMiddleware.js'
-import { addNewEvent, getAllEvents } from '../controllers/eventController.js'
+import { addNewEvent, deleteEvent, getAllEvents } from '../controllers/eventController.js'
 
 const router = Router()
 
@@ -16,6 +16,7 @@ router.post(
   );
 
 router.get('/',getAllEvents)
+router.delete('/:id',deleteEvent)
 
 
 export default router
