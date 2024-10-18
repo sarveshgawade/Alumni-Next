@@ -4,10 +4,13 @@ import alumni from "../models/alumniModel.js";
 const registerNewAlumni = async (req,res)=> {
     try {
         const {
-            fullName,email,courseCompleted,passoutBatch,currentCompanyWorkingIn,phoneNumber
+            fullName,email,degree,specialization,passoutBatch,currentCompanyWorkingIn,currentCompanyWorkingInRole,phoneNumber
         } = req.body
 
-        if(!fullName || !email || !courseCompleted || !passoutBatch || !currentCompanyWorkingIn || !phoneNumber){
+        // console.log(req.body);
+        
+
+        if(!fullName || !email || !degree || !specialization || !passoutBatch || !currentCompanyWorkingIn || !currentCompanyWorkingInRole || !phoneNumber){
             return res.status(500).json('All fields are required !') 
         }
 
@@ -18,7 +21,7 @@ const registerNewAlumni = async (req,res)=> {
         }
 
         const newAlumni = await alumni.create({
-            fullName,email,courseCompleted,passoutBatch,currentCompanyWorkingIn,phoneNumber
+            fullName,email,degree,specialization,passoutBatch,currentCompanyWorkingIn,currentCompanyWorkingInRole,phoneNumber
         })
 
         if(!newAlumni){

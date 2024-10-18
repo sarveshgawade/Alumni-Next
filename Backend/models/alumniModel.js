@@ -16,7 +16,11 @@ const alumniSchema = new mongoose.Schema({
           ] 
 
     },
-    courseCompleted:{
+    degree:{
+        type:'String',
+        trim: true ,
+    },
+    specialization:{
         type:'String',
         trim: true ,
     },
@@ -28,7 +32,7 @@ const alumniSchema = new mongoose.Schema({
         type:'String',
         trim: true ,
     },
-    currentCompanyWorkinInRole:{
+    currentCompanyWorkingInRole:{
         type:'String',
         trim: true ,
     },
@@ -44,3 +48,13 @@ const alumniSchema = new mongoose.Schema({
 const alumni = model('alumni',alumniSchema)
 
 export default alumni
+
+// {
+//     "fullName": "Rohan Verma",
+//     "email": "rohan.verma@example.com",
+//     "specialization": "Computer Science",
+//     "passoutBatch": 2018,
+//     "currentCompanyWorkingIn": "TCS",
+//     "phoneNumber": "+917650398123",
+//     "Degree": "Btech"
+//   },
