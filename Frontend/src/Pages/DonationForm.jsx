@@ -3,6 +3,7 @@ import BaseLayout from '../Layouts/BaseLayout';
 import axiosInstance from '../Helpers/axiosInstance';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import qr from '../assets/qr.png'
 
 export default function DonationForm() {
 
@@ -105,6 +106,11 @@ export default function DonationForm() {
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Donation Form</h2>
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+
+        <div className="flex flex-col items-center mb-6">
+            <img src={qr} alt="QR Code" className="w-40 h-40 mb-3" />
+            <p className="text-lg text-gray-700">Scan this QR and pay</p>
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Your Name:</label>
             <input
