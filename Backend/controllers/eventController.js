@@ -11,6 +11,8 @@ const addNewEvent = async (req,res) => {
             tagline
         } = req.body
 
+        console.log(date);
+        
         
 
         if(!eventName || !description || !clubName || !date || !tagline || !req.files || req.files.length === 0

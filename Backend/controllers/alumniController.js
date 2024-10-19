@@ -1,4 +1,5 @@
 import alumni from "../models/alumniModel.js";
+import invite from "../models/inviteModel.js";
 import twilio from 'twilio'
 import { configDotenv } from 'dotenv';
 import sendMail from "../config/sendMail.js";
@@ -94,58 +95,81 @@ const getAlumniByDegreeAndSpecialization = async (req,res) => {
 
 const sendInvite = async(req, res) => {
     try {
-        const { invites
-            // , year, eventDate, eventTime, eventLocation, virtualLink
-         } = req.body;
+        const { invites,date,time,location,degree,specialization} = req.body;
         
-        if (!invites) {
+        if (!invites || !date || !time || !location || !degree || !specialization) {
             return res.status(400).json('All fields are required');
         }
 
-        const subject = `You’re Invited to the Alumni Reunion {year}!`;
-        const message = `<h2>Alumni Reunion Invitation</h2>
+        const ifExistingInvite = await  invite.findOne({date})
 
-                    <p>Dear <i>[Recipient's Name]</i>,</p>
+        if(ifExistingInvite){
+            return res.status(400).json('Invites already sent for given date');
+        }
 
-                    <p>We are thrilled to invite you to the <b>Alumni Reunion [year]</b> hosted by <b>Alumni Next</b>. This special event will bring together alumni from all years for an unforgettable evening of reconnecting, reminiscing, and celebrating our shared memories at <b>[College Name]</b>.</p>
+        const newInvite = await invite.create({
+            invites,date,time,location,degree,specialization
+        })
 
-                    <p><b>Event Details:</b></p>
-                    <ul>
-                        <li><b>Event Name:</b> Alumni Reunion [year]</li>
-                        <li><b>Date:</b> [Event Date]</li>
-                        <li><b>Time:</b> [Event Time]</li>
-                        <li><b>Location:</b> [Event Location] (If virtual, provide Zoom/Google Meet link)</li>
-                    </ul>
+        if(!newInvite){
+            return res.status(400).json('Error in creating new invite');
+        }
 
-                    <p><b>Why Attend?</b></p>
-                    <ul>
-                        <li>Reconnect with old friends and classmates</li>
-                        <li>Share experiences and memories</li>
-                        <li>Network with alumni from various industries</li>
-                        <li>Hear from distinguished speakers and faculty</li>
-                    </ul>
+        await newInvite.save()
 
-                    <p>We would love to see you there and relive the moments that shaped our lives.</p>
+       const year = date.split("-")[0] ;
+       
+        
 
-                    <p>For any questions, feel free to reach out to us at <i>[Your Contact Email/Phone]</i>.</p>
 
-                    <p>We can’t wait to see you and make new memories together!</p>
-
-                    <p>Warm regards,</p>
-                    <p><b>Admin, Alumni Next</b></p>
-                `;
 
         const sendMessages = invites.map(async (el) => {
             try {
+
+                const subject = `You’re Invited to the Alumni Reunion ${year}!`;
+                const message = `<h2>Alumni Reunion Invitation</h2>
+        
+                            <p>Dear <i>${el.name}</i>,</p>
+        
+                            <p>We are thrilled to invite you to the <b>Alumni Reunion ${year}</b> hosted by <b>Alumni Next</b>. This special event will bring together alumni from all years for an unforgettable evening of reconnecting, reminiscing, and celebrating our shared memories at <b>Thakur College , Kandivali</b>.</p>
+        
+                            <p><b>Event Details:</b></p>
+                            <ul>
+                                <li><b>Event Name:</b> Alumni Reunion ${year}</li>
+                                <li><b>Date:</b> ${date}</li>
+                                <li><b>Time:</b>${time}</li>
+                                <li><b>Location:</b>${location}</li>
+                            </ul>
+        
+                            <p><b>Why Attend?</b></p>
+                            <ul>
+                                <li>Reconnect with old friends and classmates</li>
+                                <li>Share experiences and memories</li>
+                                <li>Network with alumni from various industries</li>
+                                <li>Hear from distinguished speakers and faculty</li>
+                            </ul>
+        
+                            <p>We would love to see you there and relive the moments that shaped our lives.</p>
+        
+                            <p>For any questions, feel free to reach out to us at <i>alumninext081@gmail.com</i>.</p>
+        
+                            <p>We can’t wait to see you and make new memories together!</p>
+        
+                            <p>Warm regards,</p>
+                            <p><b>Admin, Alumni Next</b></p>
+                        `;
                 // Send email
                 await sendMail(el.email, subject, message);
 
                 // Send SMS via Twilio
-                await client.messages.create({
+                const res = await client.messages.create({
                     from: process.env.TWILIO_PHONE_NUMBER,
                     to: el.phoneNumber, 
-                    body: `Hi {el.fullName},\n\nExciting news! You’re invited to the Alumni Reunion {year} by Alumni Next!\n\n📅 Date: {eventDate}\n⏰ Time: {eventTime}\n📍 Location: {eventLocation} (or Join virtually here: {virtualLink})\n\nJoin us to reconnect, reminisce, and network with fellow alumni.\n\nSee you there!\nAdmin, Alumni Next`
+                    body: `\n\nHi ${el.name},\n\nExciting news! You’re invited to the Alumni Reunion ${year} by Alumni Next!\n\n📅 Date: ${date}\n⏰ Time: ${time}\n📍 Location: ${location} \n\nJoin us to reconnect, reminisce, and network with fellow alumni.\n\nSee you there!\nAdmin, Alumni Next`
                 });
+
+                // console.log(res);
+                
             } catch (error) {
                 console.error(`Error sending to ${el.phoneNumber}:`, error);
             }
@@ -155,7 +179,8 @@ const sendInvite = async(req, res) => {
 
         res.status(200).json({
             success: true,
-            message: 'Invitations sent successfully'
+            message: 'Invitations sent successfully',
+            newInvite
         });
 
     } catch (error) {
