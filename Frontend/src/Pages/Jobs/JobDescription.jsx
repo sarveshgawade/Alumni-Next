@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import BaseLayout from '../../Layouts/BaseLayout';
-import { MdDeleteOutline } from "react-icons/md";
+import { MdChevronRight, MdDeleteOutline } from "react-icons/md";
 import axiosInstance from '../../Helpers/axiosInstance';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 
 function JobDescription() {
     const { state } = useLocation();
+   
+    const linkToJob = state?.link ? state.link : '/job/apply'
+    
     const navigate = useNavigate()
     const {isLoggedIn,role} = useSelector(state => state?.auth)
-    // console.log(state._id);
+    // console.log(role);
 
     const [skills, setSkills] = useState([]);
 
@@ -20,7 +23,7 @@ function JobDescription() {
 
     const handleDelete = async () => {
         const response = await axiosInstance.delete(`/jobs/${state?._id}`)
-        // console.log(response);
+        
 
         if(response?.data?.success){
           toast.success('Job post deleted successfully !')
@@ -95,6 +98,25 @@ function JobDescription() {
                                 ))}
                             </div>
                         </div>
+
+                      
+
+                            {
+                                
+                                    role === 'USER' ? (
+                                        <Link to={linkToJob}>
+                                            <button
+                                                className="bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg mt-4 ml-2
+                                                        hover:bg-orange-600 hover:scale-105 transition-transform duration-300 ease-in-out"
+                                            >
+                                                Apply Now
+                                            </button>
+                                        </Link>
+                                    ) : ''
+                                 
+                            }
+
+
                     </div>
                 </section>
             </main>

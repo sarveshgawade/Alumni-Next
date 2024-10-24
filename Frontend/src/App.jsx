@@ -17,7 +17,9 @@ import ImageUploader from './Components/ImageUploader'
 import AddNewEvent from './Pages/Events/AddNewEvent'
 import EventList from './Pages/Events/EventList'
 import EventDescription from './Pages/Events/EventDescription'
-
+import SendInvite from './Pages/SendInvite'
+import Janfest2023 from './Pages/Janfest2023'
+import JobApplicationForm from './Pages/Jobs/JobApplicationForm'
 
 function App() {
  
@@ -36,6 +38,9 @@ function App() {
         <Route path='/upload-image' element={ <ImageUploader/>} />
         <Route path='/events' element={ <EventList/>} />
         <Route path='/events/description' element={ <EventDescription/>} />
+        <Route path='/janfest' element={ <Janfest2023/>} />
+        <Route path='/job/apply' element={ <JobApplicationForm/>} />
+        
 
 
         <Route element={<RequireAuth allowedRoles={["ADMIN","ALUMNI"]}/>} >
@@ -52,6 +57,7 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>} >
             
             <Route path='/event/add' element={ <AddNewEvent/>} />
+            <Route path='/send-reunion-invite' element={ <SendInvite/>} />
         </Route>
         
         <Route path='*' element={<NotFound/>} />

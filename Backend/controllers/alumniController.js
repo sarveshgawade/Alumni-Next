@@ -68,9 +68,12 @@ const getAllAlumni = async(req,res) => {
 }
 
 const getAlumniByDegreeAndSpecialization = async (req,res) => {
+
+    
+    
     try {
         const {degree,specialization} = req.body
-
+        // console.log("req.body");
         if(!degree || !specialization){
             return res.status(500).json('All fields are required !') 
         }

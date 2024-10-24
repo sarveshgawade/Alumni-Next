@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import BaseLayout from '../Layouts/BaseLayout';
 import img1 from '../assets/alumni1.jpg';
 import img2 from '../assets/alumni2.jpg';
@@ -8,80 +8,77 @@ import img5 from '../assets/alumni5.png';
 import img6 from '../assets/alumni6.jpg';
 import img7 from '../assets/alumni7.png';
 import img8 from '../assets/alumni8.jpg';
-import banner from '../assets/banner.png';
+import banner from '../assets/4.jpg';
+import headerImage from '../assets/tcscheader.jpg'; // Add your header image
+import { IoSchoolOutline } from "react-icons/io5"; // Import the icon here
 
 function HomePage() {
   const [isVisible, setIsVisible] = useState(true);
+  const scrollRef = useRef(null); // Ref for scrollable image container
+  const images = [img1, img2, img3, img4, img5, img6, img7, img8]; // Images array for gallery
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      // Hide text when scrolling down
       if (scrollY > 100) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Images array for gallery
-  const images = [img1, img2, img3, img4, img5, img6, img7,img8];
+  // Auto-scroll logic
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    let scrollIndex = 0;
+
+    const intervalId = setInterval(() => {
+      if (scrollContainer) {
+        scrollIndex = (scrollIndex + 1) % images.length; // Cycle through images
+        const scrollAmount = scrollContainer.clientWidth; // Scroll by the width of one image
+        scrollContainer.scrollTo({
+          left: scrollIndex * scrollAmount,
+          behavior: 'smooth',
+        });
+      }
+    }, 2000); // 2-second interval
+
+    return () => clearInterval(intervalId); // Clean up on unmount
+  }, [images]);
 
   return (
     <BaseLayout>
+      {/* Full Width Header Image */}
+      <div className="w-full mt-4">
+        <img
+          src={headerImage}
+          alt="Header"
+          className="w-full h-64 object-contain pl-6" // Adjust height as needed
+        />
+      </div>
+
       {/* Main Banner Section with Full Height Background */}
       <main
-        className="relative min-h-screen bg-cover bg-center bg-no-repeat text-white flex items-center"
+        className="relative min-h-screen bg-cover bg-center bg-no-repeat text-white flex flex-col items-center justify-center"
         style={{ backgroundImage: `url(${banner})` }}
       >
         <div
-          className={`pl-8 md:pl-12 lg:pl-24 transition-all duration-500 ease-in-out ${
-            isVisible ? 'opacity-100' : 'opacity-0'
+          className={`flex items-center flex-col transition-all duration-700 ease-in-out text-center ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'
           }`}
         >
-          <h1 className="text-9xl font-bold tracking-wider md:text-6xl lg:text-7xl max-w-full text-left">
+          <h1 className="text-6xl font-bold tracking-wider max-w-full text-center">
             ALUMNI NEXT
           </h1>
-          <h3 className="text-xl md:text-2xl lg:text-3xl mt-4 font-light tracking-wide text-left">
-            Empowering Futures through Mentorship and Opportunities.
-          </h3>
+          {/* IoSchoolOutline Icon */}
+          <IoSchoolOutline className="text-5xl mt-4 transition-transform duration-300 ease-in-out hover:scale-110" />
         </div>
       </main>
-
-      {/* Image Gallery Section */}
-      <section className="py-12 bg-gray-200 relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 px-4 md:px-12 lg:px-24">
-  <h1 className="col-span-full text-center text-5xl md:text-6xl font-bold mb-8 relative z-10" data-aos="fade-up">
-    <span className="relative inline-block">
-      MEET OUR PROUD ALUMNI'S
-      <span className="absolute inset-0 bg-black bg-opacity-50 transform -skew-y-2"></span>
-    </span>
-  </h1>
-
-  {/* Add a wrapper for the images with a transparent background */}
-  <div className="absolute inset-0 bg-black bg-opacity-30 rounded-lg z-0"></div>
-
-  {images.map((image, index) => (
-    <div
-      key={index}
-      className="relative group overflow-hidden rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 z-10" // Ensure images stay above the background
-      data-aos="fade-up" // Add this for AOS animations
-    >
-      <img
-        src={image}
-        alt={`Alumni ${index + 1}`}
-        className="w-full h-64 object-cover transition duration-500"
-      />
-    </div>
-  ))}
-</section>
-
     </BaseLayout>
   );
 }

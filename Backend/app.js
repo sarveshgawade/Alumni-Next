@@ -9,6 +9,7 @@ import otpRoutes from './routes/otpRoutes.js'
 import alumniRoutes from './routes/alumniRoutes.js'
 import imageUploadRoutes from './routes/imageUploadRoute.js'
 import eventRoutes from './routes/eventRoutes.js'
+import jobApplicationRoutes from './routes/jobApplicationRoutes.js'
 
 // taking app instance
 const app = express()
@@ -45,6 +46,7 @@ app.use('/api/v1/jobs',jobRoutes)
 app.use('/api/v1/alumni',alumniRoutes)
 app.use('/api/v1/uploadImages',imageUploadRoutes)
 app.use('/api/v1/event',eventRoutes)
+app.use('/api/v1/job',jobApplicationRoutes)
 
 // test for otp
 app.use('/api/v1/otp',otpRoutes)

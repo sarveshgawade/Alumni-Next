@@ -17,7 +17,8 @@ function AddNewJob() {
     jobType: '',
     jobRole: '',
     previewImage: '',
-    skills: [] 
+    skills: [] ,
+    link: ''
   });
 
   const [skillInput, setSkillInput] = useState(''); 
@@ -83,6 +84,7 @@ function AddNewJob() {
     formData.append('jobType', jobDetails.jobType);
     formData.append('thumbnail', jobDetails.thumbnail);
     formData.append('skills', [...jobDetails.skills]);
+    formData.append('link', jobDetails.link);
     // console.log(formData.get('skills'));
     
 
@@ -100,7 +102,8 @@ function AddNewJob() {
       jobType: '',
       jobRole: '',
       previewImage: '',
-      skills: [] 
+      skills: [] ,
+      link:''
     });
     
     
@@ -108,7 +111,7 @@ function AddNewJob() {
 
   return (
     <BaseLayout>
-      <div className='flex justify-center items-center h-[100vh]'>
+      <div className='flex justify-center items-center h-[100vh] mt-10'>
         <form
           onSubmit={handleFormSubmit}
           className='flex flex-col justify-center g-5 rounded-lg p-4 w-[700px] my-10 shadow-[0_0_10px_black] relative'
@@ -245,6 +248,19 @@ function AddNewJob() {
                   value={jobDetails.description}
                   onChange={handleUserInput}
                   rows='6'
+                />
+              </div>
+
+              <div className='flex flex-col gap-2 mt-4'>
+                <label htmlFor='companyName' className='text-lg font-semibold'>Provide link</label>
+                <input
+                  type='text'
+                  name='link'
+                  id='link'
+                  placeholder='Enter link'
+                  className='bg-transparent px-2 py-1 border'
+                  value={jobDetails.link}
+                  onChange={handleUserInput}
                 />
               </div>
             </div>

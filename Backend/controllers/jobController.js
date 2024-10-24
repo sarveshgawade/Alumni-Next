@@ -9,7 +9,8 @@ const addNewJob = async (req,res) => {
             description,   
             jobRole,
             skills,
-            jobType
+            jobType,
+            link
         } = req.body
 
         // console.log(req.body);
@@ -34,7 +35,8 @@ const addNewJob = async (req,res) => {
             thumbnail:{
                 public_id:'Dummy',
                 secure_url:'Dummy'
-            }
+            },
+            link
     
         })
 

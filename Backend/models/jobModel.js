@@ -31,6 +31,9 @@ const JobSchema = new mongoose.Schema({
     jobType:{
         type : String,
         required: [true, 'job type are required']
+    },
+    link:{
+        type : String,
     }
     
 },{timestamps:true})

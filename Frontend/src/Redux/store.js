@@ -4,6 +4,7 @@ import {persistReducer} from 'redux-persist'
 import authSliceReducer from './Slices/authSlice'
 import jobSliceReducer from './Slices/jobSlice'
 import eventSliceReducer from './Slices/eventSlice'
+import jobApplicationSliceReducer from './Slices/jobApplicationSlice'
 
 
 const persistConfiguration = {
@@ -16,7 +17,8 @@ const reducer = combineReducers({
     // slices
     auth: authSliceReducer,
     jobs: jobSliceReducer,
-    events: eventSliceReducer
+    events: eventSliceReducer,
+    jobApplication: jobApplicationSliceReducer
 
 })
 
