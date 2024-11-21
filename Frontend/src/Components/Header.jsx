@@ -80,6 +80,20 @@ function Header() {
                 Add Event
               </NavLink>
         )}
+
+      { role === 'ADMIN' && (
+              <NavLink
+                to="/send-reunion-invite"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "hover:text-black"
+                }
+              >
+                Reunite
+              </NavLink>
+        )}
+
+
+        {/* ' */}
       </nav>
 
       {/* Right Section: Hamburger Menu */}

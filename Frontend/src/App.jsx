@@ -21,6 +21,7 @@ import SendInvite from './Pages/SendInvite'
 import Janfest2023 from './Pages/Janfest2023'
 import JobApplicationForm from './Pages/Jobs/JobApplicationForm'
 
+
 function App() {
  
 
@@ -58,6 +59,7 @@ function App() {
             
             <Route path='/event/add' element={ <AddNewEvent/>} />
             <Route path='/send-reunion-invite' element={ <SendInvite/>} />
+            {/* <Route path='/send-reunion-invite' element={ <SendInvite/>} /> */}
         </Route>
         
         <Route path='*' element={<NotFound/>} />

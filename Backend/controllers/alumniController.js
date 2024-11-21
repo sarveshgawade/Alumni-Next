@@ -142,6 +142,7 @@ const sendInvite = async(req, res) => {
                                 <li><b>Date:</b> ${date}</li>
                                 <li><b>Time:</b>${time}</li>
                                 <li><b>Location:</b>${location}</li>
+                                <li><b>For:</b>${degree} - ${specialization}</li>
                             </ul>
         
                             <p><b>Why Attend?</b></p>

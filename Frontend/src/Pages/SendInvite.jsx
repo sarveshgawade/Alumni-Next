@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../Helpers/axiosInstance';
+import BaseLayout from '../Layouts/BaseLayout';
+import toast from 'react-hot-toast';
 
 const SendInvite = () => {
   const [degree, setDegree] = useState('');
@@ -34,23 +36,85 @@ const SendInvite = () => {
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
+  
     if (!selectAll) {
-      setSelectedAlumni(alumni.map(alum => alum.id));
+      setSelectedAlumni(
+        alumni.map(alum => ({
+          _id: alum._id,
+          name: alum.fullName,
+          email: alum.email,
+          phoneNumber: alum.phoneNumber,
+        }))
+      );
     } else {
       setSelectedAlumni([]);
     }
   };
+  
 
   const handleSelectAlumni = (id) => {
-    if (selectedAlumni.includes(id)) {
-      setSelectedAlumni(selectedAlumni.filter(alumId => alumId !== id));
+    const selectedAlum = alumni.find(alum => alum._id === id);
+  
+    if (selectedAlumni.some(alum => alum._id === id)) {
+      setSelectedAlumni(selectedAlumni.filter(alum => alum._id !== id));
     } else {
-      setSelectedAlumni([...selectedAlumni, id]);
+      setSelectedAlumni([...selectedAlumni, { 
+        _id: selectedAlum._id, 
+        name: selectedAlum.fullName, 
+        email: selectedAlum.email, 
+        phoneNumber: selectedAlum.phoneNumber 
+      }]);
     }
   };
+  
+  async function handleSendInvites() {
+    const dateInput = document.querySelector('input[type="date"]').value;
+    const timeInput = document.querySelector('input[type="time"]').value;
+    const locationInput = document.querySelector('input[type="text"]').value;
+  
+    if (!dateInput || !timeInput || !locationInput || !degree || !specialization) {
+      toast.error('All fields are required!');
+      return;
+    }
+  
+    const formData = {
+      invites: selectedAlumni,
+      date: dateInput,
+      time: timeInput,
+      location: locationInput,
+      degree,
+      specialization,
+    };
+  
+    try {
+      const response = await axiosInstance.post('/alumni/send-invite', formData);
+      // console.log(response?.data);
+      
+      if (response?.data?.success) {
+        toast.success(response?.data?.message)
+
+        setDegree('');
+        setSpecialization('');
+        setSpecializations([]);
+        setAlumni([]);
+        setSelectedAlumni([]);
+        setSelectAll(false);
+
+        document.querySelector('input[type="date"]').value = '';
+         document.querySelector('input[type="time"]').value = '';
+         document.querySelector('input[type="text"]').value = '';
+
+      }
+    } catch (error) {
+      console.error('Error sending invites:', error);
+      alert('Failed to send invitations. Please try again.');
+    }
+  }
+  
 
   return (
-    <div className="max-w-lg mx-auto mt-10 bg-white p-8 border-2 border-gray-400 rounded-lg">
+    <BaseLayout>
+      <div className="max-w-lg mx-auto mt-24 mb-24 bg-white p-8 border-2 border-gray-400 rounded-lg ">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">Invite Alumni</h2>
       <form>
         <div className="mb-4">
@@ -125,19 +189,20 @@ const SendInvite = () => {
             <label>Select All</label>
           </div>
           {alumni.map(alum => (
-            <div key={alum._id} className="flex items-center mb-2">
-              <input
-                type="checkbox"
-                checked={selectedAlumni.includes(alum._id)}
-                onChange={() => handleSelectAlumni(alum._id)}
-                className="mr-2"
-              />
-              <label>{alum.fullName}</label>
-            </div>
-          ))}
+  <div key={alum._id} className="flex items-center mb-2">
+    <input
+      type="checkbox"
+      checked={selectedAlumni.some(selected => selected._id === alum._id)} // Check by ID
+      onChange={() => handleSelectAlumni(alum._id)}
+      className="mr-2"
+    />
+    <label>{alum.fullName}</label>
+  </div>
+))}
+
           <button
             type="button"
-            onClick={() => alert(`Inviting ${selectedAlumni.length} alumni`)}
+            onClick={handleSendInvites}
             className="w-full bg-green-500 text-white py-2 rounded mt-4 hover:bg-green-600 transition duration-300"
           >
             Send Invites
@@ -145,6 +210,7 @@ const SendInvite = () => {
         </div>
       )}
     </div>
+    </BaseLayout>
   );
 };
 
