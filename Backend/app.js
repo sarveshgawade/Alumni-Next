@@ -10,6 +10,8 @@ import alumniRoutes from './routes/alumniRoutes.js'
 import imageUploadRoutes from './routes/imageUploadRoute.js'
 import eventRoutes from './routes/eventRoutes.js'
 import jobApplicationRoutes from './routes/jobApplicationRoutes.js'
+import pdfRoutes from './routes/pdfRoutes.js'
+import referralRoutes from './routes/referralRoutes.js'
 
 // taking app instance
 const app = express()
@@ -47,6 +49,8 @@ app.use('/api/v1/alumni',alumniRoutes)
 app.use('/api/v1/uploadImages',imageUploadRoutes)
 app.use('/api/v1/event',eventRoutes)
 app.use('/api/v1/job',jobApplicationRoutes)
+app.use('/api/v1/pdf',pdfRoutes)
+app.use('/api/v1/refer',referralRoutes)
 
 // test for otp
 app.use('/api/v1/otp',otpRoutes)

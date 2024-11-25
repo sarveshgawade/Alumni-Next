@@ -93,6 +93,28 @@ function Header() {
         )}
 
 
+      { role === 'ALUMNI' && (
+              <NavLink
+                to="/refer"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "hover:text-black"
+                }
+              >
+                Refer-Buddy
+              </NavLink>
+        )}
+
+
+      {role === 'ALUMNI' && (
+              <NavLink
+                to="/referrals"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-400" : "hover:text-black"
+                }
+              >
+                Referrals
+              </NavLink>
+        )}
         {/* ' */}
       </nav>
 

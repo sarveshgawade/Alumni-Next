@@ -20,6 +20,11 @@ import EventDescription from './Pages/Events/EventDescription'
 import SendInvite from './Pages/SendInvite'
 import Janfest2023 from './Pages/Janfest2023'
 import JobApplicationForm from './Pages/Jobs/JobApplicationForm'
+import DisplayPDF from './Pages/DisplayPDF'
+import JobReferralPage from './Pages/JobReferralPage'
+import Referrals from './Pages/Jobs/Referrals'
+import ReferralDescription from './Pages/ReferralDescription'
+import ApplyToReferral from './Pages/ApplyToReferral'
 
 
 function App() {
@@ -41,6 +46,8 @@ function App() {
         <Route path='/events/description' element={ <EventDescription/>} />
         <Route path='/janfest' element={ <Janfest2023/>} />
         <Route path='/job/apply' element={ <JobApplicationForm/>} />
+        <Route path='/pdf' element={ <DisplayPDF/>} />
+        
         
 
 
@@ -51,8 +58,11 @@ function App() {
         
 
         <Route element={<RequireAuth allowedRoles={["ALUMNI"]}/>} >
-            
+            <Route path='/refer' element={ <JobReferralPage/>} />
             <Route path='/alumni/donate' element={ <DonationForm/>} />
+            <Route path='/referrals' element={ <Referrals/>} />
+            <Route path='/referral/description' element={ <ReferralDescription/>} />
+            <Route path='/referral/apply' element={ <ApplyToReferral/>} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>} >

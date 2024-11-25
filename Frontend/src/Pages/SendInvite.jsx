@@ -27,10 +27,15 @@ const SendInvite = () => {
   const fetchAlumni = async () => {
     if (degree && specialization) {
         
+     try {
       const response = await axiosInstance.post('/alumni/get-alumni-by-degree',{degree,specialization})
-        console.log(response?.data?.filteredAlumni);
+      console.log(response?.data?.status);
         
       setAlumni(response?.data?.filteredAlumni);
+     } catch (error) {
+        toast.error('No Alumnis found !')
+        // document.getElementsByClassName("abc").value = "NA"
+     }
     }
   };
 
@@ -177,7 +182,7 @@ const SendInvite = () => {
       </form>
 
       {alumni.length > 0 && (
-        <div className="mt-6">
+        <div className="mt-6 abc">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">Select Alumni to Invite</h3>
           <div className="flex items-center mb-4">
             <input

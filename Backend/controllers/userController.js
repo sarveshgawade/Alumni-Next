@@ -278,7 +278,8 @@ const updateUser = async (req,res) =>{
         }   
     }
 
-    await userExists.save()
+    await userExists.save({ validateModifiedOnly: true });
+
 
     res.status(200).json({
         success: true ,
