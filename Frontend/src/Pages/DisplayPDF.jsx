@@ -1,30 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../Helpers/axiosInstance";
+import { useLocation } from "react-router-dom";
 
-const DisplayPDF = ({ pdfId }) => {
-  const [pdfData, setPdfData] = useState(null);
+const DisplayPDF = () => {
+  const {state} = useLocation()
+  const [pdfData,setPdfData] = useState('')
+  
 
   useEffect(() => {
-    const fetchPDF = async () => {
-      try {
-        const response = await axiosInstance.get(`/pdf/67446d744a12084d8d7b3547`);
-        const data = response.data
-        console.log(data);
-        
 
-        if (response.data.success) {
-          setPdfData(`data:${data.contentType};base64,${data.pdfData}`);
-        //   console.log(`data:${data.contentType};base64,${data.pdfData}`);
-          
-        } else {
-          console.error(data.message || "Failed to load PDF");
-        }
-      } catch (error) {
-        console.error("Error fetching PDF:", error);
-      }
-    };
+          setPdfData(`data:${state.contentType};base64,${state.data}`);
 
-    fetchPDF();
   }, []);
 
   return (
@@ -34,7 +20,10 @@ const DisplayPDF = ({ pdfId }) => {
       ) : (
         <p>Loading PDF...</p>
       )}
+      Loading pdf
     </div>
+
+    // <>etgsh </>
   );
 };
 

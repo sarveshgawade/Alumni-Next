@@ -6,6 +6,25 @@ const upload = multer({storage})
 
 const uploadPDF = async (req,res)=>{
     try {
+        const {
+            name,
+            currentCompany,
+            currentRole,
+            experience,
+            salary,
+            expectedSalary,
+            noticePeriod,
+            email,
+            phoneNo,
+            referredByEmail
+        } = req.body
+        
+        if(!name || !currentCompany || !currentRole || !experience || !salary || !expectedSalary || !noticePeriod || !email || !phoneNo || !referredByEmail){
+            return res.status(500).json('All fields are required !')
+        }
+
+        
+        // console.log(req.body);
         // console.log(req.file);
         
         const {originalname,buffer,mimetype} = req.file
@@ -13,7 +32,17 @@ const uploadPDF = async (req,res)=>{
         const newPdf = new PDF({
             name: originalname,
             data: buffer ,
-            contentType : mimetype
+            contentType : mimetype,
+            name,
+            currentCompany,
+            currentRole,
+            experience,
+            salary,
+            expectedSalary,
+            noticePeriod,
+            email,
+            phoneNo,
+            referredByEmail
         })
 
         await newPdf.save()
@@ -21,6 +50,7 @@ const uploadPDF = async (req,res)=>{
         res.status(200).json({
             success : true ,
             message : "PDF uploaded successfully",
+            newPdf
              
         })
 
@@ -48,4 +78,35 @@ const getPDF = async (req,res) => {
         
     }
 }
-export {uploadPDF,getPDF}
+
+const getAppliedProfiles = async (req,res) => {
+    try {
+
+        const {referredByEmail} = req.body
+        console.log(referredByEmail);
+                
+        if(!referredByEmail) return res.status(500).json('Reffered by email is required !')
+
+        let documents = await PDF.find({referredByEmail})
+
+        documents =  documents.map(el => {
+            return {
+                ...el.toObject(),
+                data: el.data.toString('base64')
+            }
+         })
+
+        res.status(200).json({
+            success: true ,
+            message : 'Profiles found' ,
+            documents
+        })
+        
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export {uploadPDF,getPDF,getAppliedProfiles}

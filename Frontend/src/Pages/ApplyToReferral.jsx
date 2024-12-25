@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import BaseLayout from "../Layouts/BaseLayout";
 import axiosInstance from "../Helpers/axiosInstance";
+import { useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const ApplyToReferral = () => {
+
+  const {state} = useLocation()
+  console.log(state);
+  
+  const navigate = useNavigate()
+  
   const [formData, setFormData] = useState({
     name: "",
     currentCompany: "",
@@ -30,13 +39,46 @@ const ApplyToReferral = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    // Add your form submission logic here
+    
+    if(!formData.name || !formData.currentCompany || !formData.experience || !formData.salary || !formData.expectedSalary || !formData.noticePeriod || !formData.email || !formData.phoneNo){
+      toast.error('All fields are required !')
+      return
+    }
+
     const fd = new FormData()
     fd.append('file',formData.resumePdf)
+    fd.append('name',formData.name)
+    fd.append('currentCompany',formData.currentCompany)
+    fd.append('currentRole',formData.currentRole)
+    fd.append('experience',formData.experience)
+    fd.append('salary',formData.salary)
+    fd.append('expectedSalary',formData.expectedSalary)
+    fd.append('noticePeriod',formData.noticePeriod)
+    fd.append('email',formData.email)
+    fd.append('phoneNo',formData.phoneNo)
+    fd.append('referredByEmail',state.referredByEmail)
 
     const response = await axiosInstance.post('/pdf/upload',fd)
-    console.log(response?.data);
     
+    if(response?.data?.success){
+        toast.success('Applied successfully !')
+
+        setFormData({
+          name: "",
+          currentCompany: "",
+          currentRole: "",
+          experience: "",
+          salary: "",
+          expectedSalary: "",
+          noticePeriod: "",
+          resumePdf: null,
+          email: "",
+          phoneNo: "",
+          
+        });
+
+        navigate(-1)
+    }
   };
 
   return (
@@ -51,9 +93,9 @@ const ApplyToReferral = () => {
           { label: "Name", name: "name", type: "text" },
           { label: "Current Company", name: "currentCompany", type: "text" },
           { label: "Current Role", name: "currentRole", type: "text" },
-          { label: "Experience (years)", name: "experience", type: "number" },
-          { label: "Salary (current)", name: "salary", type: "number" },
-          { label: "Expected Salary", name: "expectedSalary", type: "number" },
+          { label: "Experience (years) (eg: 1,2)", name: "experience", type: "number" },
+          { label: "Salary (current in LPA) (eg: 1,2)", name: "salary", type: "number" },
+          { label: "Expected Salary (LPA) (eg: 1,2)", name: "expectedSalary", type: "number" },
           { label: "Notice Period (days)", name: "noticePeriod", type: "number" },
           { label: "Email", name: "email", type: "email" },
           { label: "Phone No.", name: "phoneNo", type: "text" },

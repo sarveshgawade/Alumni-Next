@@ -41,7 +41,7 @@ const addJobPost = async (req,res) => {
 const getAllReferrals = async (req,res)=> {
     try {
         const referrals = await referral.find({referredByEmail: {$ne: req.user.email}})
-        // const currentUserEmail  = 
+       
         
         
         res.status(200).json({
@@ -75,13 +75,5 @@ const deleteJobPost = async(req,res)=> {
     }
 }
 
-const applyToJob = async(req,res) => {
-    try {
-        const {} = req.body
-    } catch (error) {
-        console.log(error);
-        
-    }
-}
 
 export {addJobPost,getAllReferrals,deleteJobPost}

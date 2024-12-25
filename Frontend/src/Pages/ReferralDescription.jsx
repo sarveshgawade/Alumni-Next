@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 
 function ReferralDescription() {
   const { state } = useLocation();
+  // console.log(state);
+  
   const navigate = useNavigate();
   
   // Access the Redux auth state
@@ -26,9 +28,10 @@ function ReferralDescription() {
     }
   }
 
-  // useEffect(() => {
-  //   // console.log("Logged-in email:", email);
-  // }, [email]);
+  function handleSubmit(){
+    navigate('/referral/apply',{state})
+  }
+
 
   return (
     <BaseLayout>
@@ -64,6 +67,7 @@ function ReferralDescription() {
           {email !== state?.referredByEmail ? (
             <button
               className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+              onClick={handleSubmit}
             >
               Apply Now
             </button>

@@ -25,6 +25,7 @@ import JobReferralPage from './Pages/JobReferralPage'
 import Referrals from './Pages/Jobs/Referrals'
 import ReferralDescription from './Pages/ReferralDescription'
 import ApplyToReferral from './Pages/ApplyToReferral'
+import { JobProfileCard } from './Components/JobProfileCard'
 
 
 function App() {
@@ -46,7 +47,7 @@ function App() {
         <Route path='/events/description' element={ <EventDescription/>} />
         <Route path='/janfest' element={ <Janfest2023/>} />
         <Route path='/job/apply' element={ <JobApplicationForm/>} />
-        <Route path='/pdf' element={ <DisplayPDF/>} />
+        
         
         
 
@@ -63,6 +64,9 @@ function App() {
             <Route path='/referrals' element={ <Referrals/>} />
             <Route path='/referral/description' element={ <ReferralDescription/>} />
             <Route path='/referral/apply' element={ <ApplyToReferral/>} />
+            <Route path='/job-profile/description' element={ <JobProfileCard/>} />
+            <Route path='/download-resume' element={ <DisplayPDF/>} />
+        
         </Route>
 
         <Route element={<RequireAuth allowedRoles={["ADMIN"]}/>} >
